@@ -60,7 +60,19 @@
         </div>
     </div>
 
-    <div id="sort-controls" class="hidden items-center gap-2 mb-6">
+    {# The toggle and the sort controls share a row on the front page. #}
+    <div{% if browse_toggle %} class="flex flex-wrap items-center gap-x-6 gap-y-3 mb-6"{% endif %}>
+    {% if browse_toggle %}
+    <div class="flex flex-wrap gap-1" role="group" aria-label="{{ tr.t("browse-by") }}">
+        <button type="button" id="browse-by-folder" data-browse-by="folder"
+                class="nav-pill {% if !features.browse_by_course %}active{% endif %}"
+                aria-pressed="{% if features.browse_by_course %}false{% else %}true{% endif %}">📁 {{ tr.t("browse-by-folder") }}</button>
+        <button type="button" id="browse-by-course" data-browse-by="course"
+                class="nav-pill {% if features.browse_by_course %}active{% endif %}"
+                aria-pressed="{% if features.browse_by_course %}true{% else %}false{% endif %}">🍽️ {{ tr.t("browse-by-course") }}</button>
+    </div>
+    {% endif %}
+    <div id="sort-controls" class="hidden items-center gap-2{% if !browse_toggle %} mb-6{% endif %}">
         <label for="sort-field" class="text-sm text-muted">{{ tr.t("sort-by") }}</label>
         <select id="sort-field" class="select">
             <option value="name">{{ tr.t("sort-name") }}</option>
@@ -68,6 +80,7 @@
             <option value="created" id="sort-created-option">{{ tr.t("sort-created") }}</option>
         </select>
         <button id="sort-dir" type="button" class="btn" aria-label="{{ tr.t("sort-direction-toggle") }}" title="{{ tr.t("sort-direction-toggle") }}">↑</button>
+    </div>
     </div>
 
     {% match todays_menu %}
@@ -124,6 +137,20 @@
 {% endblock %}
 
 {% block scripts %}
+{% if browse_toggle %}
+<script>
+// Folders or courses: a cookie, so the server lists the chosen one on every
+// visit to the front page.
+document.querySelectorAll('[data-browse-by]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        if (button.getAttribute('aria-pressed') === 'true') return;
+        const maxAge = 365 * 24 * 60 * 60;
+        document.cookie = `browse_by=${button.dataset.browseBy}; path={{ prefix }}/; max-age=${maxAge}; SameSite=Lax`;
+        window.location.reload();
+    });
+});
+</script>
+{% endif %}
 <script>
 (function () {
     const grid = document.getElementById('recipes-grid');

@@ -83,3 +83,6 @@ random-recipe = Random recipe
 # Course and tag lists
 course-none = No course
 recipe-list-empty = No recipes found.
+browse-by = Browse recipes by
+browse-by-folder = Folders
+browse-by-course = Courses

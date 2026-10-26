@@ -83,3 +83,6 @@ random-recipe = Willekeurig recept
 # Course and tag lists
 course-none = Zonder gang
 recipe-list-empty = Geen recepten gevonden.
+browse-by = Recepten bekijken per
+browse-by-folder = Mappen
+browse-by-course = Gangen

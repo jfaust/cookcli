@@ -364,6 +364,9 @@ pub struct RecipesTemplate {
     pub new_plan_url: String,
     /// `/random` link for the current folder; `None` hides the button.
     pub random_recipe_url: Option<String>,
+    /// Whether to offer the Folders / Courses toggle: on the server's front
+    /// page, the one page it changes.
+    pub browse_toggle: bool,
     pub tr: Tr,
     pub prefix: String,
     pub static_mode: bool,

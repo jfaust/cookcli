@@ -1,27 +1,28 @@
 import { test, expect } from '@playwright/test';
 
-// Browsing by course is a cookie each viewer sets on the preferences page;
-// these tests start without it, as every new browser context does.
+// Browsing by course is a cookie each viewer sets with the toggle on the
+// front page; these tests start without it, as every new browser context does.
 test.describe('Browse by course and tag', () => {
-  test('the preference switches the front page to courses and back', async ({ page }) => {
+  test('the toggle above the recipes switches to courses and back', async ({ page }) => {
     await page.goto('/');
     await expect(page.locator('a[href="/directory/Breakfast"]')).toBeVisible();
+    await expect(page.locator('#browse-by-folder')).toHaveAttribute('aria-pressed', 'true');
 
-    await page.goto('/preferences');
     await page.locator('#browse-by-course').click();
     await expect(page.locator('#browse-by-course')).toHaveAttribute('aria-pressed', 'true');
-
-    await page.goto('/');
     await expect(page.locator('a[href="/directory/Breakfast"]')).toHaveCount(0);
     const breakfast = page.locator('a[href="/course/breakfast"]');
     await expect(breakfast).toContainText('Breakfast');
     await expect(breakfast).toContainText('2 recipes');
     await expect(page.locator('a[href="/no-course"]')).toBeVisible();
 
-    await page.goto('/preferences');
+    // Remembered: the front page opens on courses until switched back.
+    await breakfast.click();
+    await page.locator('nav').getByRole('link', { name: 'Recipes' }).first().click();
+    await expect(page.locator('#browse-by-course')).toHaveAttribute('aria-pressed', 'true');
+
     await page.locator('#browse-by-folder').click();
     await expect(page.locator('#browse-by-folder')).toHaveAttribute('aria-pressed', 'true');
-    await page.goto('/');
     await expect(page.locator('a[href="/directory/Breakfast"]')).toBeVisible();
   });
 

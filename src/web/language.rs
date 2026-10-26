@@ -33,9 +33,10 @@ pub struct FeatureFlags {
     /// advertise them for feed-reader autodiscovery. Always on for `cook server`; `cook build
     /// web` writes the feeds only with `--feed`.
     pub feeds: bool,
-    /// The `browse_by=course` cookie: the recipe list opens on the courses
-    /// recipes declare in their `course` metadata instead of the folders.
-    /// A static site has no course pages, so `cook build web` leaves it off.
+    /// The `browse_by=course` cookie, set by the toggle above the recipe
+    /// list: the front page lists the courses recipes declare in their
+    /// `course` metadata instead of the folders. A static site has no course
+    /// pages, so `cook build web` leaves it off.
     pub browse_by_course: bool,
 }
 

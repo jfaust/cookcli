@@ -79,3 +79,6 @@ random-recipe = Ausazko errezeta
 # Course and tag lists
 course-none = Platerik gabe
 recipe-list-empty = Ez da errezetarik aurkitu.
+browse-by = Arakatu errezetak honen arabera
+browse-by-folder = Karpetak
+browse-by-course = Platerak

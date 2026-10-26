@@ -83,3 +83,6 @@ random-recipe = Recette au hasard
 # Course and tag lists
 course-none = Sans plat
 recipe-list-empty = Aucune recette trouvée.
+browse-by = Parcourir les recettes par
+browse-by-folder = Dossiers
+browse-by-course = Plats

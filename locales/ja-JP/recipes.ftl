@@ -75,3 +75,6 @@ random-recipe = ランダムなレシピ
 # Course and tag lists
 course-none = 種類なし
 recipe-list-empty = レシピが見つかりません。
+browse-by = レシピの表示方法
+browse-by-folder = フォルダ
+browse-by-course = 種類

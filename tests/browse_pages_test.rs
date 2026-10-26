@@ -254,17 +254,29 @@ async fn an_unknown_course_or_tag_is_an_empty_list() {
 }
 
 #[tokio::test]
-async fn the_preference_is_offered_and_shows_the_current_choice() {
+async fn the_front_page_offers_the_toggle_showing_the_current_choice() {
     let server = start_server().await;
 
-    let (_, page) = get(&server, "/preferences", Some("browse_by=course")).await;
-    assert!(page.contains(r#"id="browse-by-course""#), "{page}");
-    let course_button = &page[page.find(r#"id="browse-by-course""#).unwrap()..];
-    assert!(
-        course_button
-            .trim_start_matches(r#"id="browse-by-course""#)
-            .trim_start()
-            .starts_with(r#"aria-pressed="true""#),
-        "{page}"
-    );
+    let pressed = |page: &str, id: &str| {
+        let button = &page[page
+            .find(&format!(r#"id="{id}""#))
+            .unwrap_or_else(|| panic!("{id} in {page}"))..];
+        let end = button.find('>').unwrap();
+        button[..end].contains(r#"aria-pressed="true""#)
+    };
+
+    let (_, page) = get(&server, "/", None).await;
+    assert!(pressed(&page, "browse-by-folder"), "{page}");
+    assert!(!pressed(&page, "browse-by-course"), "{page}");
+
+    let (_, page) = get(&server, "/", Some("browse_by=course")).await;
+    assert!(!pressed(&page, "browse-by-folder"), "{page}");
+    assert!(pressed(&page, "browse-by-course"), "{page}");
+
+    // Only the front page changes, so only it has the toggle; so does the
+    // preferences page no longer.
+    for path in ["/directory/Mains", "/course/dessert", "/preferences"] {
+        let (_, page) = get(&server, path, None).await;
+        assert!(!page.contains(r#"id="browse-by-course""#), "{path}: {page}");
+    }
 }

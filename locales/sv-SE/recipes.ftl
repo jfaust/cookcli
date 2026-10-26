@@ -83,3 +83,6 @@ random-recipe = Slumpmässigt recept
 # Course and tag lists
 course-none = Utan rätt
 recipe-list-empty = Inga recept hittades.
+browse-by = Bläddra bland recept efter
+browse-by-folder = Mappar
+browse-by-course = Rätter

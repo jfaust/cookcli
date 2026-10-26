@@ -176,7 +176,8 @@ pub fn build_recipes_template(input: RecipesBuildInput<'_>) -> Result<RecipesTem
     // Browsing by course, the front page lists the courses recipes declare
     // instead of its folders, read from the tree walked above. A static site
     // has no course pages to link to.
-    if features.browse_by_course && sub_path.is_none() && !static_mode {
+    let browse_toggle = sub_path.is_none() && !static_mode;
+    if browse_toggle && features.browse_by_course {
         items = crate::web::browse::course_cards(&tree, base_path, url_prefix, &lang);
     }
 
@@ -251,6 +252,7 @@ pub fn build_recipes_template(input: RecipesBuildInput<'_>) -> Result<RecipesTem
         new_menu_url,
         new_plan_url,
         random_recipe_url,
+        browse_toggle,
         tr: Tr::new(lang),
         prefix: url_prefix.to_string(),
         static_mode,

@@ -83,3 +83,6 @@ random-recipe = Zufälliges Rezept
 # Course and tag lists
 course-none = Ohne Gang
 recipe-list-empty = Keine Rezepte gefunden.
+browse-by = Rezepte ordnen nach
+browse-by-folder = Ordner
+browse-by-course = Gänge
